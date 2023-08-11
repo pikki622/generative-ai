@@ -119,7 +119,7 @@ class EnterpriseSearchRetriever(BaseRetriever, BaseModel):
             "condition": self.query_expansion_condition,
         }
 
-        request = discoveryengine_v1beta.SearchRequest(
+        return discoveryengine_v1beta.SearchRequest(
             query=query,
             filter=self.filter,
             serving_config=self._serving_config,
@@ -128,16 +128,12 @@ class EnterpriseSearchRetriever(BaseRetriever, BaseModel):
             query_expansion_spec=query_expansion_spec,
         )
 
-        return request
-
     def get_relevant_documents(self, query: str) -> List[Document]:
         """Get documents relevant for a query."""
 
         request = self._create_search_request(query)
         response = self._client.search(request)
-        documents = self._convert_search_response(response.results)
-
-        return documents
+        return self._convert_search_response(response.results)
 
     async def aget_relevant_documents(self, query: str) -> List[Document]:
         raise NotImplementedError("Async interface to GDELT not implemented")

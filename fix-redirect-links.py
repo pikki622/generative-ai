@@ -81,12 +81,12 @@ def populate_new_cell_content(notebook_path: str, header: str) -> str:
     """
 
     formatted_html_code = ""
+    # Format the code using 2 spaces for each indentation level.
+    indent = "  "
     for line in html_code.split("\n")[1:-1]:
         # Remove all leading and trailing spaces.
         line = line.strip() + "\n"
 
-        # Format the code using 2 spaces for each indentation level.
-        indent = "  "
         if line.startswith("<td") or line.startswith("</td"):
             line = (indent * 1) + line
         elif line.startswith("<a") or line.startswith("</a"):
@@ -97,9 +97,7 @@ def populate_new_cell_content(notebook_path: str, header: str) -> str:
         # Concat the lines back
         formatted_html_code += line
 
-    # Concat existing header with the formatted html code
-    new_cell_content = f"{header}\n\n{formatted_html_code}"
-    return new_cell_content
+    return f"{header}\n\n{formatted_html_code}"
 
 
 def main():
